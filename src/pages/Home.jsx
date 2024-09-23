@@ -78,9 +78,9 @@ const Home = () => {
       {/* Rooms Section */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-10' style={{ backgroundColor: '#FCF8F3', padding: '15px 0px 19px 40px' }}>
           <div>
-            <h2 style={{ fontWeight: '700', fontSize: '40px', color: '#3A3A3A' }}>50+ Beautiful rooms inspiration</h2>
+            <h2 style={{ fontWeight: '700', fontSize: '40px', color: '#3A3A3A', letterSpacing: '-2px' }}>50+ Beautiful rooms inspiration</h2>
             <p style={{ color: '#616161', fontWeight: '500' }}>Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
-            <button style={{ backgroundColor: '#B88E2F', color: '#FFFFFF', padding: '12px 36px' }}>Explore More</button>
+            <button style={{ backgroundColor: '#B88E2F', color: '#FFFFFF', padding: '12px 36px', marginTop: '2rem' }}>Explore More</button>
           </div>
       </div>
 
