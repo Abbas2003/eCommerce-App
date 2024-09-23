@@ -1,7 +1,18 @@
 import { Image } from 'antd';
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import ProductCard from '../components/ProductCard';
 
 const Home = () => {
+
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    axios.get('https://dummyjson.com/products/category/smartphones')
+      .then(res => setProducts(res.data.products))
+
+  }, [])
+
   return (
     <section>
       {/* Hero Section */}
@@ -48,26 +59,29 @@ const Home = () => {
       </div>
 
       {/* Our Products Section */}
-      <div>
-        <div className='container mx-auto mt-10'>
+      <div className='container mx-auto'>
+        <div className=' mt-10'>
           <div className='text-center'>
             <h1 className='poppins-font' style={{ fontWeight: '700', fontSize: '32px', lineHeight: '48px' }} >Our Products</h1>
           </div>
         </div>
-        <div className='flex justify-center items-center gap-4 mt-10'>
-          <div>
-            <Image src='/Dining.png' />
-            <p className='text-center font-medium poppins-font'>Dining</p>
-          </div>
-          <div>
-            <Image src='/Living.png' />
-            <p className='text-center font-medium poppins-font'>Dining</p>
-          </div>
-          <div>
-            <Image src='/Bedroom.png' />
-            <p className='text-center font-medium poppins-font'>Dining</p>
-          </div>
+        <div className='flex flex-wrap gap-4 mt-10'>
+          {products.map(product => (
+            <ProductCard item={product} key={product.id} />
+          ))}
         </div>
+        <div  className='text-center my-7'>
+          <button style={{ color: '#B88E2F', border: '1px solid #B88E2F', padding: '12px 74px', fontWeight: '600' }}>Shop More</button>
+        </div>
+      </div>
+
+      {/* Rooms Section */}
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-10' style={{ backgroundColor: '#FCF8F3', padding: '15px 0px 19px 40px' }}>
+          <div>
+            <h2 style={{ fontWeight: '700', fontSize: '40px', color: '#3A3A3A' }}>50+ Beautiful rooms inspiration</h2>
+            <p style={{ color: '#616161', fontWeight: '500' }}>Our designer already made a lot of beautiful prototipe of rooms that inspire you</p>
+            <button style={{ backgroundColor: '#B88E2F', color: '#FFFFFF', padding: '12px 36px' }}>Explore More</button>
+          </div>
       </div>
 
     </section>
