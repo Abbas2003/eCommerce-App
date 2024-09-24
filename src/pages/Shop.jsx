@@ -2,8 +2,9 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
 import { Pagination } from 'antd';
-import { CheckCircleOutlined} from '@ant-design/icons';
+import { CheckCircleOutlined } from '@ant-design/icons';
 import QualitySection from '../components/QualitySection';
+import Hero from '../components/Hero';
 
 const Shop = () => {
 
@@ -30,37 +31,8 @@ const Shop = () => {
 
   return (
     <section>
-      <div
-        style={{
-          backgroundImage: `url('https://as2.ftcdn.net/v2/jpg/03/72/10/17/1000_F_372101733_OREw1mHslgrFCu3R1AYJitN8OEvrxABB.jpg')`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          position: 'relative',
-        }}
-      >
-        {/* Overlay using rgba */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            backgroundColor: 'rgba(0, 0, 0, 0.2)', // Adjust opacity here
-            zIndex: 1,
-          }}
-        ></div>
-        {/* Content on top of the background image */}
-        <div className="m-12" style={{ zIndex: 2 }}>
-          <h1 style={{ fontWeight: '500', fontSize: '48px' }}>Shop</h1>
-          <p>
-            <span className="font-medium">Home</span> > Shop
-          </p>
-        </div>
-      </div>
+
+      <Hero currentPage={'Shop'} PreviousPage={'Home'} />
 
       <div style={{ backgroundColor: '#F9F1E7', padding: '30px 70px', display: 'flex', justifyContent: 'space-between' }}>
         <div className='flex gap-4 text-sm'>
