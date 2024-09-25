@@ -1,9 +1,10 @@
 import { Image, Rate } from 'antd';
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router';
 import { UserOutlined } from '@ant-design/icons';
 import ProductCard from '../components/ProductCard';
+import { CartContext } from '../context/CartContext';
 
 const SingleProduct = () => {
 
@@ -11,6 +12,7 @@ const SingleProduct = () => {
   const [product, setProduct] = useState({})
   const [relProducts, setrelProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState(4);
+  const {addToCart, isItemAdded, updateCart, cartItems} = useContext(CartContext)
 
   useEffect(() => {
     // Fetch the product with the given id
@@ -19,7 +21,8 @@ const SingleProduct = () => {
       .catch(err => console.log(err))
   }, [])
 
-  // console.log("Product->", product);
+  console.log("cartItems->", cartItems);
+  // console.log("product->", cartItems);
 
   useEffect(() => {
     axios.get('https://dummyjson.com/products')
@@ -37,10 +40,12 @@ const SingleProduct = () => {
   const [count, setCount] = useState(1);
   const handleDecrease = () => {
     setCount(count > 1 ? count - 1 : 1); // Prevent going below 1
+    updateCart(product, "minus")
   };
 
   const handleIncrease = () => {
     setCount(count + 1);
+    updateCart(product, "plus")
   };
 
   const [activeTab, setActiveTab] = useState('Details');
@@ -107,8 +112,11 @@ const SingleProduct = () => {
             </div>
 
             <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
-              <button className='py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto'>
-                Add To Cart
+              <button 
+                className='py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto'
+                onClick={() => addToCart(product)}
+              >
+               Add to Cart
               </button>
               <button className='py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto'>
                 + Compare
@@ -297,7 +305,7 @@ const SingleProduct = () => {
 
       {/* Related products component */}
       <div className='my-12'>
-        <h2 className='text-4xl font-semibold text-center'>Related Products</h2>
+        <h2 className='text-4xl font-semibold text-center md:mb-9 mb-4'>Related Products</h2>
         <div className='container mx-auto'>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {relProducts.slice(0, visibleProducts).map((product) => (

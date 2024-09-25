@@ -1,10 +1,13 @@
 import { HeartOutlined, ShareAltOutlined } from '@ant-design/icons'
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
+import { CartContext } from '../context/CartContext'
 
 const ProductCard = ({ item }) => {
 
     const { title, thumbnail, brand, price, id } = item
+
+    const {addToCart, isItemAdded} = useContext(CartContext)
 
     return (
         <Link to={`/product/${id}`}>
@@ -26,7 +29,12 @@ const ProductCard = ({ item }) => {
                 {/* Add to Cart Button (Initially hidden, shown on hover) */}
                 <div className='absolute inset-0 flex items-center justify-center bg-[#3A3A3A] bg-opacity-75 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-full'>
                     <div className=''>
-                        <button className='py-3 px-12 bg-white text-[#B88E2F] font-medium'>Add to Cart</button>
+                        <button 
+                            className='py-3 px-12 bg-white text-[#B88E2F] font-medium'
+                            onClick={() => addToCart(item)}
+                        >
+                            {isItemAdded(id) ? `Added (${isItemAdded(id).quantity})` : 'Add To Cart'}
+                        </button>
                         <div className='flex justify-center items-center mt-3'>
                             <div>
                                 <ShareAltOutlined />
