@@ -120,7 +120,7 @@ const NavBar = () => {
               <div key={item.id} className="flex justify-between items-center">
 
                 {/* Product Image (right) */}
-                <img src={item.thumbnail} alt={item.title} className="w-16 h-16 object-cover" />
+                <img src={item.thumbnail} alt={item.title} className="w-16 h-16 object-cover rounded-lg" />
 
                 {/* Product Info (left) */}
                 <div className="flex flex-col">
@@ -144,20 +144,20 @@ const NavBar = () => {
         {/* Subtotal */}
         <div className="flex justify-between items-center mt-4 border-t pt-2">
           <span className="font-semibold text-lg">Subtotal:</span>
-          <span className="font-semibold text-lg">${calculateSubtotal().toFixed(2)}</span>
+          <span className="font-semibold text-lg text-[#B88E2F]">${calculateSubtotal().toFixed(2)}</span>
         </div>
 
         {/* Buttons */}
         <div className="flex justify-between space-x-2 mt-4">
-          <Button type="primary" className="w-full md:w-1/3" onClick={handleCancel}>
+          <button className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={handleCancel}>
             Cart
-          </Button>
-          <Button type="primary" className="w-full md:w-1/3" onClick={() => alert('Proceed to Checkout')}>
+          </button>
+          <button type="primary" className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => alert('Proceed to Checkout')}>
             Checkout
-          </Button>
-          <Button className="w-full md:w-1/3" onClick={() => alert('Compare Products')}>
+          </button>
+          <button className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => alert('Compare Products')}>
             Comparison
-          </Button>
+          </button>
         </div>
       </Modal>
     </>

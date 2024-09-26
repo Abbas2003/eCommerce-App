@@ -11,6 +11,7 @@ import Blog from './pages/Blog'
 import Contact from './pages/Contact'
 import SingleProduct from './pages/SingleProduct'
 import NotFound from './pages/NotFound'
+import Cart from './pages/Cart'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
             <Route path='/shop' element={<Shop />} />
             <Route path='/checkout' element={<CheckOut />} />
             <Route path='/blog' element={<Blog />} />
+            <Route path='/cart' element={<Cart />} />
             <Route path='/contact' element={<Contact />} />
             <Route path='/product/:id' element={<SingleProduct />} />
             <Route path='*' element={<NotFound />} />

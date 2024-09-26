@@ -21,8 +21,8 @@ const SingleProduct = () => {
       .catch(err => console.log(err))
   }, [])
 
-  console.log("cartItems->", cartItems);
-  // console.log("product->", cartItems);
+  console.log("cartItems->", cartItems[0].quantity);
+  // console.log("product->", product);
 
   useEffect(() => {
     axios.get('https://dummyjson.com/products')
