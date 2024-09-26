@@ -1,13 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
 import { Badge, Image, Modal, Button } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
 const NavBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal state for cart
   const { cartItems, removeFromCart } = useContext(CartContext); // Get cart items from context
+
+  const navigate = useNavigate()
 
   // Function to toggle sidebar
   const toggleSidebar = () => {
@@ -105,11 +107,11 @@ const NavBar = () => {
       {/* Cart Modal positioned at the top-right corner */}
       <Modal
         title="Shopping Cart"
-        visible={isModalVisible}
+        open={isModalVisible}
         onCancel={handleCancel}
         footer={null}
         className="lg:w-1/3 md:w-1/2 sm:w-full"
-        bodyStyle={{ padding: '2px' }}
+        styles={{ padding: '2px' }}
         style={{ position: 'absolute', top: 0, right: 0, margin: 0 }}
         mask={false}
       >
@@ -133,7 +135,7 @@ const NavBar = () => {
                 </div>
 
                 {/* Remove Button */}
-                <img src='/closebtn.png' alt='Remove' className='cursor-pointer' onClick={() => removeFromCart(item.id)} />
+                <img src='/closebtn.png' alt='Remove' className='cursor-pointer' onClick={() => removeFromCart(item)} />
               </div>
             ))
           ) : (
@@ -149,10 +151,10 @@ const NavBar = () => {
 
         {/* Buttons */}
         <div className="flex justify-between space-x-2 mt-4">
-          <button className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={handleCancel}>
+          <button className="w-60 py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={handleCancel}>
             Cart
           </button>
-          <button type="primary" className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => alert('Proceed to Checkout')}>
+          <button type="primary" className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => navigate('/checkout')}>
             Checkout
           </button>
           <button className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => alert('Compare Products')}>

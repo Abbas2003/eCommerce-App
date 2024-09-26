@@ -33,7 +33,7 @@ const ProductCard = ({ item }) => {
                             className='py-3 px-12 bg-white text-[#B88E2F] font-medium'
                             onClick={() => addToCart(item)}
                         >
-                            {isItemAdded(id) ? `Added (${isItemAdded(id).quantity})` : 'Add To Cart'}
+                            {isItemAdded(item) ? `Added (${isItemAdded(item)?.quantity})` : 'Add To Cart'}
                         </button>
                         <div className='flex justify-center items-center mt-3'>
                             <div>

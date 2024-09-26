@@ -11,18 +11,27 @@ const SingleProduct = () => {
   const { id } = useParams()
   const [product, setProduct] = useState({})
   const [relProducts, setrelProducts] = useState([]);
+  const [activeTab, setActiveTab] = useState('Details');
   const [visibleProducts, setVisibleProducts] = useState(4);
-  const {addToCart, isItemAdded, updateCart, cartItems} = useContext(CartContext)
+  const { addToCart, isItemAdded, updateCart, cartItems, removeFromCart } = useContext(CartContext)
+  const tabs = ['Description', 'Additional Information', `Reviews [${product?.reviews?.length}]`];
 
   useEffect(() => {
-    // Fetch the product with the given id
     axios.get(`https://dummyjson.com/products/${id}`)
-      .then(res => setProduct(res.data))
+      .then(res => {
+        setProduct(res.data)
+      })
       .catch(err => console.log(err))
   }, [])
 
-  console.log("cartItems->", cartItems[0].quantity);
-  // console.log("product->", product);
+
+  const index = cartItems.findIndex((item) => item.id == id)
+  console.log("index->", index);
+  product.quantity = cartItems[index]?.quantity
+  // console.log("quantity->", cartItems[index]?.quantity);
+
+  // console.log("cartItems->", cartItems); // from local storage, quantity present
+  console.log("product->", product?.quantity);  // from api, quantity not present
 
   useEffect(() => {
     axios.get('https://dummyjson.com/products')
@@ -34,23 +43,7 @@ const SingleProduct = () => {
       });
   }, []);
 
-  
 
-
-  const [count, setCount] = useState(1);
-  const handleDecrease = () => {
-    setCount(count > 1 ? count - 1 : 1); // Prevent going below 1
-    updateCart(product, "minus")
-  };
-
-  const handleIncrease = () => {
-    setCount(count + 1);
-    updateCart(product, "plus")
-  };
-
-  const [activeTab, setActiveTab] = useState('Details');
-
-  const tabs = ['Description', 'Additional Information', `Reviews [${product?.reviews?.length}]`];
 
 
 
@@ -58,8 +51,8 @@ const SingleProduct = () => {
     <section>
       <div className='bg-[#F9F1E7] md:py-[30px] md:px-[70px] p-8 flex justify-between' >
         <div className='flex gap-2 text-gray-400'>
-          <span>Home ></span>
-          <span>Shop ></span>
+          <span>Home {'>'}</span>
+          <span>Shop {'>'}</span>
           <span className='text-black border-l pl-2 border-gray-400'>{product?.title}</span>
         </div>
       </div>
@@ -98,25 +91,32 @@ const SingleProduct = () => {
             <div className="flex items-center justify-center h-14 rounded-lg bg-white border border-gray-300">
               <button
                 className="w-8 h-full text-[22px] text-gray-600 hover:text-gray-800 focus:outline-none"
-                onClick={handleDecrease}
+                onClick={() => {
+                  if(product?.quantity <= 1){
+                    removeFromCart(product)
+                  } else {
+                    updateCart(product, "minus")
+                  }
+                }
+              }
               >
                 -
               </button>
-              <span className="w-8 text-center">{count}</span>
+              <span className="w-8 text-center">{product?.quantity ? product.quantity : 0}</span>
               <button
                 className="w-8 h-full text-gray-600 hover:text-gray-800 focus:outline-none"
-                onClick={handleIncrease}
+                onClick={() => updateCart(product, "plus")}
               >
                 +
               </button>
             </div>
 
             <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
-              <button 
+              <button
                 className='py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto'
                 onClick={() => addToCart(product)}
               >
-               Add to Cart
+                {isItemAdded(product) ? `Added (${isItemAdded(product)?.quantity})` : 'Add to Cart'}
               </button>
               <button className='py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto'>
                 + Compare
@@ -313,9 +313,9 @@ const SingleProduct = () => {
             ))}
           </div>
           <div className='mb-[4rem] mt-7 text-center'>
-              <button className="text-[#B88E2F] border border-[#B88E2F] px-[3.5rem] py-3 font-semibold">
-                Show More
-              </button>
+            <button className="text-[#B88E2F] border border-[#B88E2F] px-[3.5rem] py-3 font-semibold">
+              Show More
+            </button>
           </div>
         </div>
       </div>
