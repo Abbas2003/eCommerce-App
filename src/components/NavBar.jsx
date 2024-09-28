@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
-import { Badge, Image, Modal, Button } from 'antd';
+import { Badge, Image, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 
 const NavBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
   const [isModalVisible, setIsModalVisible] = useState(false); // Modal state for cart
-  const { cartItems, removeFromCart } = useContext(CartContext); // Get cart items from context
+  const { cartItems, cartSubtotal, removeFromCart } = useContext(CartContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   // Function to toggle sidebar
   const toggleSidebar = () => {
@@ -26,9 +26,9 @@ const NavBar = () => {
     setIsModalVisible(false);
   };
 
-  // Function to calculate subtotal
-  const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + item.quantity * item.price, 0);
+  // Function to calculate total subtotal for the cart
+  const calculateTotalSubtotal = () => {
+    return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   return (
@@ -143,11 +143,12 @@ const NavBar = () => {
           )}
         </div>
 
-        {/* Subtotal */}
+        {/* Total Subtotal */}
         <div className="flex justify-between items-center mt-4 border-t pt-2">
-          <span className="font-semibold text-lg">Subtotal:</span>
-          <span className="font-semibold text-lg text-[#B88E2F]">${calculateSubtotal().toFixed(2)}</span>
+          <span className="font-semibold text-lg">Total Subtotal:</span>
+          <span className="font-semibold text-lg text-[#B88E2F]">Rs. {cartSubtotal.toLocaleString()}</span>
         </div>
+
 
         {/* Buttons */}
         <div className="flex justify-between space-x-2 mt-4">
