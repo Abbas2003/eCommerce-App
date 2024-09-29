@@ -26,31 +26,35 @@ const ProductCard = ({ item }) => {
                     <p className='font-medium poppins-font mt-2'>Rp {price}</p>
                 </div>
 
-                {/* Add to Cart Button (Initially hidden, shown on hover) */}
-                <div className='absolute inset-0 flex items-center justify-center bg-[#3A3A3A] bg-opacity-75 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-full'>
-                    <div className=''>
-                        <button 
-                            className='py-3 px-12 bg-white text-[#B88E2F] font-medium'
-                            onClick={() => addToCart(item)}
-                        >
-                            {isItemAdded(item) ? `Added (${isItemAdded(item)?.quantity})` : 'Add To Cart'}
-                        </button>
-                        <div className='flex justify-center items-center mt-3'>
-                            <div>
-                                <ShareAltOutlined />
-                                <span>Share</span>
-                            </div>
-                            <div>
-                                <img src="/compare.png" alt="comparing arrows" />
-                                <span>Compare</span>
-                            </div>
-                            <div>
-                                <HeartOutlined />
-                                <span>Like</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+               {/* Add to Cart Button (Initially hidden, shown on hover) */}
+<div className='absolute inset-0 flex items-center text-center justify-center bg-[#3A3A3A] bg-opacity-75 text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 w-full'>
+  <div className=''>
+    {/* Add to Cart Button */}
+    <button 
+      className='py-3 px-12 bg-white text-[#B88E2F] font-medium hover:text-white hover:bg-[#B88E2F]'
+      onClick={() => addToCart(item)}
+    >
+      {isItemAdded(item) ? `Added (${isItemAdded(item)?.quantity})` : 'Add To Cart'}
+    </button>
+
+    {/* Share, Compare, Like Section */}
+    <div className='flex justify-between items-center mt-3 w-full px-4'>
+      <div className='flex items-center space-x-1'>
+        <ShareAltOutlined />
+        <span>Share</span>
+      </div>
+      <div className='flex items-center space-x-1'>
+        <img src="/compare.png" alt="comparing arrows" />
+        <span>Compare</span>
+      </div>
+      <div className='flex items-center space-x-1'>
+        <HeartOutlined />
+        <span>Like</span>
+      </div>
+    </div>
+  </div>
+</div>
+
             </div>
         </Link>
 

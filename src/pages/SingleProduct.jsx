@@ -5,6 +5,7 @@ import { useParams } from 'react-router';
 import { UserOutlined } from '@ant-design/icons';
 import ProductCard from '../components/ProductCard';
 import { CartContext } from '../context/CartContext';
+import { Link } from 'react-router-dom';
 
 const SingleProduct = () => {
   const { id } = useParams();
@@ -62,7 +63,7 @@ const SingleProduct = () => {
   };
 
   return (
-    <section>
+    <section className='poppins-font'>
       {/* Breadcrumb */}
       <div className="bg-[#F9F1E7] md:py-[30px] md:px-[70px] p-8 flex justify-between">
         <div className="flex gap-2 text-gray-400">
@@ -123,12 +124,12 @@ const SingleProduct = () => {
 
             <div className="flex flex-col md:flex-row gap-2 w-full md:w-auto">
               <button
-                className="py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto"
+                className="py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto hover:bg-black hover:text-white"
                 onClick={handleAddToCart}
               >
                 {isItemAdded(product) ? `Added (${isItemAdded(product)?.quantity})` : 'Add to Cart'}
               </button>
-              <button className="py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto">
+              <button className="py-2 px-6 border rounded-lg border-black text-[20px] w-full md:w-auto hover:bg-black hover:text-white">
                 + Compare
               </button>
             </div>
@@ -192,9 +193,8 @@ const SingleProduct = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`py-2 px-4 text-sm md:text-[24px] lg:text-[24px] ${
-                activeTab === tab ? 'border-b-2 border-blue-500 text-black' : 'text-[#9F9F9F]'
-              }`}
+              className={`py-2 px-4 text-sm md:text-[24px] lg:text-[24px] hover:text-black transition-colors ${activeTab === tab ? 'border-b-2 border-blue-500 text-black' : 'text-[#9F9F9F]'
+                }`}
             >
               {tab}
             </button>
@@ -310,11 +310,13 @@ const SingleProduct = () => {
               <ProductCard item={product} key={product.id} />
             ))}
           </div>
-          <div className="mb-[4rem] mt-7 text-center">
-            <button className="text-[#B88E2F] border border-[#B88E2F] px-[3.5rem] py-3 font-semibold">
-              Show More
-            </button>
-          </div>
+          <Link to={'/shop'}>
+            <div className="mb-[4rem] mt-7 text-center">
+              <button className="text-[#B88E2F] border border-[#B88E2F] px-[3.5rem] py-3 font-semibold hover:bg-[#B88E2F] hover:text-white">
+                Show More
+              </button>
+            </div>
+          </Link>
         </div>
       </div>
     </section>

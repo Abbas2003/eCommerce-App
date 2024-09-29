@@ -6,7 +6,7 @@ import QualitySection from '../components/QualitySection';
 
 const Contact = () => {
   return (
-    <section>
+    <section className='poppins-font'>
       <Hero currentPage={'Contact'} PreviousPage={'Home'} />
       
       <div className='container mx-auto text-center px-4 sm:px-6 md:w-[80%] lg:w-[60%] xl:w-[40%] my-10 py-10'>
@@ -70,11 +70,11 @@ const Contact = () => {
             <p className='font-medium mb-5'>Subject</p>
             <Input type="text" placeholder='This is optional' className='p-4 w-full' />
           </div>
-          <div className='mb-7'>
+          <div className='mb-11'>
             <p className='font-medium mb-5'>Message</p>
             <TextArea rows={4} placeholder="Hi! I’d like to ask about..." className='p-4 w-full' />
           </div>
-          <button style={{ backgroundColor: '#B88E2F', padding: '9px 3rem', color: 'white', borderRadius: '5px' }}>Submit</button>
+          <button className='hover:text-[#B88E2F] border border-[#B88E2F] px-[2rem] md:px-[5rem] py-3  hover:bg-white bg-[#B88E2F] text-white transition-colors duration-300 rounded-md'>Submit</button>
         </div>
       </div>
 

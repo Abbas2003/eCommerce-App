@@ -139,7 +139,7 @@ const CheckOut = () => {
   };
 
   return (
-    <section>
+    <section className='poppins-font'>
       {/* Hero Section */}
       <Hero currentPage={'Checkout'} PreviousPage={'Home'} />
 

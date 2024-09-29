@@ -152,9 +152,11 @@ const NavBar = () => {
 
         {/* Buttons */}
         <div className="flex justify-between space-x-2 mt-4">
-          <button className="w-60 py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={handleCancel}>
-            Cart
-          </button>
+          <Link to={'/cart'} className="w-60 py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition text-center">
+            <button onClick={handleCancel}>
+              Cart
+            </button>
+          </Link>
           <button type="primary" className="w-full py-[8px] text-black md:w-1/3 rounded-3xl border border-black hover:border-[#B88E2F] hover:text-white hover:bg-[#B88E2F] transition" onClick={() => navigate('/checkout')}>
             Checkout
           </button>

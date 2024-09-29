@@ -2,6 +2,7 @@ import { Image } from 'antd';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ProductCard from '../components/ProductCard';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
 
@@ -14,7 +15,7 @@ const Home = () => {
   }, [])
 
   return (
-    <section>
+    <section className='poppins-font'>
       {/* Hero Section */}
       <div
         style={{
@@ -75,13 +76,12 @@ const Home = () => {
       </div>
 
 
-
       {/* Browse Section */}
       <div>
         <div className='container mx-auto mt-10'>
           <div className='text-center'>
-            <h1 className='poppins-font' style={{ fontWeight: '700', fontSize: '32px', lineHeight: '48px' }} >Browse The Range</h1>
-            <p className='poppins-font' style={{ color: '#666666' }}>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <h1 style={{ fontWeight: '700', fontSize: '32px', lineHeight: '48px' }} >Browse The Range</h1>
+            <p className='text-[#666666]'>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
           </div>
         </div>
         <div className='flex justify-center items-center gap-4 mt-10'>
@@ -91,31 +91,42 @@ const Home = () => {
           </div>
           <div>
             <Image src='/Living.png' />
-            <p className='text-center font-medium poppins-font'>Dining</p>
+            <p className='text-center font-medium poppins-font'>Living</p>
           </div>
           <div>
             <Image src='/Bedroom.png' />
-            <p className='text-center font-medium poppins-font'>Dining</p>
+            <p className='text-center font-medium poppins-font'>Bedroom</p>
           </div>
         </div>
       </div>
 
       {/* Our Products Section */}
-      <div className='container mx-auto'>
-        <div className=' mt-10'>
+      <div className='container mx-auto px-4'>
+        <div className='mt-10'>
           <div className='text-center'>
-            <h1 className='poppins-font' style={{ fontWeight: '700', fontSize: '32px', lineHeight: '48px' }} >Our Products</h1>
+            <h1 className='poppins-font text-2xl md:text-4xl font-bold leading-tight'>
+              Our Products
+            </h1>
           </div>
         </div>
-        <div className='flex flex-wrap gap-4 mt-10'>
+
+        <div className='flex flex-wrap justify-center gap-4 mt-10'>
           {products.map(product => (
             <ProductCard item={product} key={product.id} />
           ))}
         </div>
+
         <div className='text-center my-7'>
-          <button style={{ color: '#B88E2F', border: '1px solid #B88E2F', padding: '12px 74px', fontWeight: '600' }}>Shop More</button>
+          <Link to={'/shop'}>
+            <button
+              className='text-[#B88E2F] border border-[#B88E2F] px-8 py-3 font-semibold hover:bg-[#B88E2F] hover:text-white transition-colors duration-300'
+            >
+              Shop More
+            </button>
+          </Link>
         </div>
       </div>
+
 
       {/* Rooms Section */}
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mt-10' style={{ backgroundColor: '#FCF8F3', padding: '15px 0px 19px 40px' }}>

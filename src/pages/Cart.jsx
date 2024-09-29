@@ -3,21 +3,24 @@ import QualitySection from '../components/QualitySection';
 import Hero from '../components/Hero';
 import { DeleteFilled } from '@ant-design/icons';
 import { CartContext } from '../context/CartContext';
+import { useNavigate } from 'react-router';
 
 const Cart = () => {
 
-  const { cartItems } = useContext(CartContext)
+  const { cartItems, removeFromCart } = useContext(CartContext)
   // console.log("items ->", cartItems);
+
+  const navigate = useNavigate()
 
 
   return (
-    <section>
+    <section className='poppins-font'>
       <Hero currentPage={'Cart'} PreviousPage={'Home'} />
 
       <div className="container mx-auto p-4 my-[3rem]">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           {/* Product Table */}
-          <div className="lg:col-span-2 bg-white rounded-lg">
+          <div className="lg:col-span-2 bg-white rounded-lg overflow-x-auto">
             <table className="w-full table-auto">
               <thead>
                 <tr className="text-left bg-[#F9F1E7]">
@@ -49,7 +52,7 @@ const Cart = () => {
                         <td className="p-4">Rs. 250,000.00</td>
                         <td className="p-4">
                           <button className="text-[#B88E2F] hover:text-black transition">
-                            <DeleteFilled />
+                            <DeleteFilled onClick={() => removeFromCart(item)} />
                           </button>
                         </td>
                       </tr>
@@ -75,7 +78,7 @@ const Cart = () => {
                 <span className="text-[#B88E2F]">Rs. 250,000.00</span>
               </div>
               <div className='text-center'>
-                <button className="w-1/2 border border-black py-2 hover:shadow-xl rounded-xl text-[20px]">
+                <button className="w-full md:w-1/2 border border-black py-2 rounded-xl text-[20px] hover:text-white hover:bg-black transition" onClick={() => navigate('/checkout')}>
                   Check Out
                 </button>
               </div>

@@ -4,7 +4,7 @@ import React from 'react'
 
 const Hero = ({ currentPage, PreviousPage }) => {
     return (
-        <section>
+        <section className='poppins-font'>
             <div
                 style={{
                     position: 'relative',
