@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Input, message } from 'antd'; // Import message for alert
 import Hero from '../components/Hero';
 import QualitySection from '../components/QualitySection';
 import emailjs from 'emailjs-com';
+import { UserContext } from '../context/UserContext';
+import { useNavigate } from 'react-router';
 
 
 const CheckOut = () => {
@@ -26,6 +28,9 @@ const CheckOut = () => {
     email: '',
     additionalInfo: '',
   });
+
+  const user = useContext(UserContext);
+  const navigate = useNavigate();
 
 
   // Fetch cart items and subtotal from localStorage on component mount
@@ -59,7 +64,6 @@ const CheckOut = () => {
   };
 
   // Function to handle sending email using EmailJS
-  // Function to handle sending email (placeholder)
   const sendEmail = async (orderMessage) => {
     const serviceID = import.meta.env.VITE_SERVICE_ID;
     const templateID = import.meta.env.VITE_TEMPLATE_ID;
@@ -88,6 +92,8 @@ const CheckOut = () => {
 
   // Function to handle checkout and send order details via WhatsApp and Email
   const checkoutOrder = async () => {
+    if(!user.isLogin) navigate('/auth/signin')
+      
     // Check if all required fields are filled
     const { firstName, lastName, country, streetAddress, city, province, zipCode, phone, email } = formValues;
 

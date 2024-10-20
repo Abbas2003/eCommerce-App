@@ -1,8 +1,9 @@
 import React, { useContext, useState } from 'react';
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
-import { Badge, Image, Modal } from 'antd';
+import { Avatar, Badge, Image, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
+import { UserContext } from '../context/UserContext';
 
 const NavBar = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
@@ -11,6 +12,8 @@ const NavBar = () => {
 
   const navigate = useNavigate();
 
+  const { user, setUser } = useContext(UserContext);
+  console.log("user in header=>", user)
   // Function to toggle sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -52,8 +55,10 @@ const NavBar = () => {
         </div>
 
         {/* Icons (Visible only on desktop) */}
-        <div className="hidden md:flex gap-8 text-xl">
-          <UserOutlined />
+        <div className="hidden md:flex gap-8 text-xl md:items-center">
+          {
+            user.isLogin ? <Avatar src={user?.userInfo?.photoUrl} /> : <UserOutlined />
+          }
           <SearchOutlined />
           <HeartOutlined />
           {/* Cart icon with badge to show number of items */}
@@ -77,8 +82,10 @@ const NavBar = () => {
         </div>
 
         {/* Mobile Icons */}
-        <div className="flex gap-8 text-xl p-6">
-          <UserOutlined />
+        <div className="flex gap-8 text-xl p-5 items-center">
+          {
+            user.isLogin ? <Avatar src={user?.userInfo?.photoUrl} /> : <UserOutlined />
+          }
           <SearchOutlined />
           <HeartOutlined />
           {/* Mobile cart icon with badge */}

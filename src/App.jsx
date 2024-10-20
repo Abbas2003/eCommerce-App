@@ -13,6 +13,7 @@ import SingleProduct from './pages/SingleProduct'
 import NotFound from './pages/NotFound'
 import Cart from './pages/Cart'
 import About from './pages/About'
+import Admin from './pages/Admin/Admin'
 
 function App() {
 
@@ -35,6 +36,10 @@ function App() {
             <Route path='/contact' element={<Contact />} />
             <Route path='/product/:id' element={<SingleProduct />} />
             <Route path='*' element={<NotFound />} />
+          </Route>
+
+          <Route path='/admin'>
+            <Route index element={<Admin />} />
           </Route>
         </Routes>
       </BrowserRouter>
