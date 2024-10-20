@@ -1,19 +1,22 @@
 import React, { useContext, useState } from 'react';
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Image, Modal } from 'antd';
+import { Avatar, Badge, Button, Image, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { UserContext } from '../context/UserContext';
+import { auth } from '../utils/firebase';
+import { signOut } from 'firebase/auth';
 
 const NavBar = () => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Sidebar state
-  const [isModalVisible, setIsModalVisible] = useState(false); // Modal state for cart
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const { cartItems, cartSubtotal, removeFromCart } = useContext(CartContext);
 
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(UserContext);
   console.log("user in header=>", user)
+
   // Function to toggle sidebar
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -32,6 +35,18 @@ const NavBar = () => {
   // Function to calculate total subtotal for the cart
   const calculateTotalSubtotal = () => {
     return cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+  };
+
+  // Function to handle logout
+  const handleLogout = async () => {
+    try {
+      await signOut(auth); // Firebase logout
+      user.setUserInfo(null); // Clear user context state
+      message.success('Logged out successfully!');
+    } catch (error) {
+      message.error('Failed to log out. Please try again.');
+      console.error('Logout error:', error);
+    }
   };
 
   return (
@@ -56,12 +71,18 @@ const NavBar = () => {
 
         {/* Icons (Visible only on desktop) */}
         <div className="hidden md:flex gap-8 text-xl md:items-center">
-          {
-            user.isLogin ? <Avatar src={user?.userInfo?.photoUrl} /> : <UserOutlined />
-          }
+          {user.isLogin ? (
+            <>
+              <Avatar src={user?.userInfo?.photoUrl} />
+              <Button onClick={handleLogout} type="text" className="text-red-500">
+                Logout
+              </Button>
+            </>
+          ) : (
+            <UserOutlined />
+          )}
           <SearchOutlined />
           <HeartOutlined />
-          {/* Cart icon with badge to show number of items */}
           <Badge count={cartItems.length}>
             <ShoppingCartOutlined className="text-xl cursor-pointer" onClick={showModal} />
           </Badge>

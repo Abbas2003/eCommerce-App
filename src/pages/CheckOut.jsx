@@ -91,9 +91,17 @@ const CheckOut = () => {
   };
 
   // Function to handle checkout and send order details via WhatsApp and Email
+  // Function to handle checkout and send order details via WhatsApp and Email
   const checkoutOrder = async () => {
-    if(!user.isLogin) navigate('/auth/signin')
-      
+    if (!user.isLogin) {
+      message.error('Please log in to place your order.');
+      // Redirect to the auth page after showing the error
+      setTimeout(() => {
+        navigate('/auth');
+      }, 3000); // Redirect after 3 seconds
+      return;
+    }
+
     // Check if all required fields are filled
     const { firstName, lastName, country, streetAddress, city, province, zipCode, phone, email } = formValues;
 
@@ -115,20 +123,18 @@ const CheckOut = () => {
 
     // Create a readable message to send to WhatsApp
     const orderMessage = `
-      New Order from ${firstName} ${lastName}
-      \nEmail: ${email}
-      \nPhone: ${phone}
-      \nAddress: ${streetAddress}, ${city}, ${province}, ${zipCode}, ${country}
-      \n\nItems Ordered:
-      ${cartItems.map((item) => `${item.title} x ${item.quantity} - Rs. ${(item.price * item.quantity).toLocaleString()}`).join('\n')}
-      \n\nTotal Quantity: ${totalQuantity}
-      \nSubtotal: Rs. ${cartSubtotal.toLocaleString()}
-      \nTotal Price: Rs. ${totalPrice.toLocaleString()}
-      \nPayment Method: ${paymentMethod}
-      \n\nAdditional Info: ${formValues.additionalInfo || 'N/A'}
-    `;
-
-    // console.log('Order Message:', orderMessage);
+    New Order from ${firstName} ${lastName}
+    \nEmail: ${email}
+    \nPhone: ${phone}
+    \nAddress: ${streetAddress}, ${city}, ${province}, ${zipCode}, ${country}
+    \n\nItems Ordered:
+    ${cartItems.map((item) => `${item.title} x ${item.quantity} - Rs. ${(item.price * item.quantity).toLocaleString()}`).join('\n')}
+    \n\nTotal Quantity: ${totalQuantity}
+    \nSubtotal: Rs. ${cartSubtotal.toLocaleString()}
+    \nTotal Price: Rs. ${totalPrice.toLocaleString()}
+    \nPayment Method: ${paymentMethod}
+    \n\nAdditional Info: ${formValues.additionalInfo || 'N/A'}
+  `;
 
     // Open WhatsApp with the formatted message
     window.open(`https://wa.me/923108295635?text=${encodeURIComponent(orderMessage)}`);
@@ -141,8 +147,10 @@ const CheckOut = () => {
     localStorage.removeItem('cartSubtotal'); // Remove subtotal from local storage
     setCartItems([]);
     setCartSubtotal(0);
+
     message.success('Order placed successfully!');
   };
+
 
   return (
     <section className='poppins-font'>
