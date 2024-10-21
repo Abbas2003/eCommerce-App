@@ -1,6 +1,6 @@
 // src/components/AdminPanel.js
 import React, { useState } from 'react';
-import { Layout, Button, Menu } from 'antd';
+import { Layout, Button } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import Products from '../../components/adminComponents/Products';
 import Orders from '../../components/adminComponents/Orders';
@@ -13,12 +13,15 @@ const AdminPanel = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [selectedKey, setSelectedKey] = useState('1'); // Default selected key
 
-  const toggleCollapsed = () => {
-    setCollapsed(!collapsed);
-  };
+  const toggleCollapsed = () => setCollapsed(!collapsed);
 
   const handleMenuClick = (key) => {
     setSelectedKey(key);
+
+    // Auto-collapse sidebar only on small screens
+    if (window.innerWidth < 1024) {
+      setCollapsed(true);
+    }
   };
 
   const renderContent = () => {
@@ -35,7 +38,7 @@ const AdminPanel = () => {
   };
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <Layout style={{ minHeight: '100vh' }} className="poppins-font">
       <Sider
         breakpoint="lg"
         collapsedWidth="0"
@@ -47,11 +50,13 @@ const AdminPanel = () => {
       >
         <Sidebar onClose={toggleCollapsed} onMenuClick={handleMenuClick} />
       </Sider>
+
       <Layout>
         <Header className="bg-white shadow-lg flex justify-between items-center">
           <Button type="link" icon={<MenuOutlined />} onClick={toggleCollapsed} className="lg:hidden" />
           <h1 className="text-xl font-bold">Admin Panel</h1>
         </Header>
+
         <Content style={{ margin: '24px 16px 0' }}>
           <div className="site-layout-background p-4 rounded-lg shadow-md">
             {renderContent()}

@@ -5,18 +5,20 @@ import { ShoppingCartOutlined, UserOutlined, AppstoreAddOutlined, CloseOutlined 
 
 const Sidebar = ({ onClose, onMenuClick }) => {
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex justify-end p-2">
-        <Button type="link" icon={<CloseOutlined />} onClick={onClose} className="lg:hidden" />
+    <div className="flex flex-col h-full poppins-font">
+      {/* Close button visible only on small screens */}
+      <div className="flex justify-end lg:hidden">
+        <Button type="link" icon={<CloseOutlined />} onClick={onClose} />
       </div>
-      <Menu mode="inline" defaultSelectedKeys={['1']} style={{ height: '100%', borderRight: 0 }}>
-        <Menu.Item key="1" icon={<AppstoreAddOutlined />} onClick={() => { onMenuClick('1'); onClose(); }}>
+
+      <Menu mode="inline" defaultSelectedKeys={['1']} className="pt-10" style={{ height: '100%', borderRight: 0 }}>
+        <Menu.Item key="1" icon={<AppstoreAddOutlined />} onClick={() => onMenuClick('1')}>
           Products
         </Menu.Item>
-        <Menu.Item key="2" icon={<ShoppingCartOutlined />} onClick={() => { onMenuClick('2'); onClose(); }}>
+        <Menu.Item key="2" icon={<ShoppingCartOutlined />} onClick={() => onMenuClick('2')}>
           Orders
         </Menu.Item>
-        <Menu.Item key="3" icon={<UserOutlined />} onClick={() => { onMenuClick('3'); onClose(); }}>
+        <Menu.Item key="3" icon={<UserOutlined />} onClick={() => onMenuClick('3')}>
           Users
         </Menu.Item>
       </Menu>
