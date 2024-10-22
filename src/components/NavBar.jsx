@@ -15,7 +15,7 @@ const NavBar = () => {
   const navigate = useNavigate();
 
   const { user, setUser } = useContext(UserContext);
-  console.log("user in header=>", user)
+  // console.log("user in header=>", user)
 
   // Function to toggle sidebar
   const toggleSidebar = () => {
@@ -41,7 +41,7 @@ const NavBar = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth); 
-      user.setUserInfo(null); // Clear user context state
+      setUser(null); // Clear user context state
       message.success('Logged out successfully!');
     } catch (error) {
       message.error('Failed to log out. Please try again.');

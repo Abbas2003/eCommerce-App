@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { Input, message } from 'antd'; // Import message for alert
+import { Input, message } from 'antd';
 import Hero from '../components/Hero';
 import QualitySection from '../components/QualitySection';
 import emailjs from 'emailjs-com';
 import { UserContext } from '../context/UserContext';
 import { useNavigate } from 'react-router';
+import { addDoc, collection, doc, setDoc } from 'firebase/firestore';
+import { db } from '../utils/firebase';
 
 
 const CheckOut = () => {
@@ -30,6 +32,9 @@ const CheckOut = () => {
   });
 
   const user = useContext(UserContext);
+  const userId = user.user?.userInfo?.id;
+  console.log(user.user)
+
   const navigate = useNavigate();
 
 
@@ -47,7 +52,47 @@ const CheckOut = () => {
     // Store the subtotal in localStorage
     localStorage.setItem('cartSubtotal', total.toString());
     setCartSubtotal(total); // Update the state with the calculated subtotal
+
   }, []);
+
+
+  // Function to send data to firestore db
+  const sendDataToFirestore = async (user) => {
+    // Adding data to firestore database in users collection
+    if (user.user) {
+      const order = {
+        items: cartItems,
+        totalPrice: cartSubtotal,
+        totalQuantity: totalQuantity,
+        status: 'Pending',
+        paymentMethod: paymentMethod || "N/A",
+        user: user.user?.userInfo?.email,
+        timestamp: new Date(),
+      }
+
+      try {
+        // Reference to the 'orders' sub-collection under the user's document
+        const ordersCollectionRef = collection(doc(db, "users", userId), "orders");
+        console.log(ordersCollectionRef);
+        console.log(order);
+        
+      
+        // Add the order as a new document inside the 'orders' sub-collection
+        addDoc(ordersCollectionRef, order)
+          .then(() => {
+            console.log("Order added successfully!");
+          })
+          .catch((error) => {
+            console.error("Error in sending order:", error);
+          });
+      } catch (error) {
+        console.error("Error in Firestore operation:", error.message);
+      }
+    } else {
+      console.warn("User is not logged in or invalid user data.");
+    }
+  }
+
 
   // Handle form input changes
   const handleInputChange = (e) => {
@@ -68,6 +113,8 @@ const CheckOut = () => {
     const serviceID = import.meta.env.VITE_SERVICE_ID;
     const templateID = import.meta.env.VITE_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_PUBLIC_KEY;
+    console.log(publicKey);
+    
 
     const templateParams = {
       firstName: formValues.firstName,
@@ -91,9 +138,8 @@ const CheckOut = () => {
   };
 
   // Function to handle checkout and send order details via WhatsApp and Email
-  // Function to handle checkout and send order details via WhatsApp and Email
   const checkoutOrder = async () => {
-    if (!user.isLogin) {
+    if (!user.user.isLogin) {
       message.error('Please log in to place your order.');
       // Redirect to the auth page after showing the error
       setTimeout(() => {
@@ -136,19 +182,23 @@ const CheckOut = () => {
     \n\nAdditional Info: ${formValues.additionalInfo || 'N/A'}
   `;
 
-    // Open WhatsApp with the formatted message
-    window.open(`https://wa.me/923108295635?text=${encodeURIComponent(orderMessage)}`);
+    // Sending data to db
+    sendDataToFirestore(user)
 
+    message.success('Order placed successfully!');
+    
     // Send the order summary to the user's email
     sendEmail(orderMessage);
-
+    
     // Clear the cart after placing the order
     localStorage.removeItem('cartItems');
     localStorage.removeItem('cartSubtotal'); // Remove subtotal from local storage
     setCartItems([]);
     setCartSubtotal(0);
+    
 
-    message.success('Order placed successfully!');
+    // Open WhatsApp with the formatted message
+    window.open(`https://wa.me/923108295635?text=${encodeURIComponent(orderMessage)}`);
   };
 
 

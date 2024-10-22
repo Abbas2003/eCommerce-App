@@ -4,6 +4,7 @@ import Hero from '../components/Hero';
 import { DeleteFilled } from '@ant-design/icons';
 import { CartContext } from '../context/CartContext';
 import { useNavigate } from 'react-router';
+import { UserContext } from '../context/UserContext';
 
 const Cart = () => {
 
@@ -36,7 +37,7 @@ const Cart = () => {
                   cartItems.map((item) => {
                     // console.log("item",item.price)
                     return (
-                      <tr>
+                      <tr key={item?.id}>
                         <td className="flex items-center p-4">
                           <img
                             src={item.thumbnail}
@@ -66,7 +67,7 @@ const Cart = () => {
 
           {/* Cart Totals */}
           <div className="bg-[#F9F1E7] px-12 py-3">
-            <h2 className="text-[32px] mb-8 font-bold mb-4 text-center ">Cart Totals</h2>
+            <h2 className="text-[32px] md:mb-8 font-bold mb-4 text-center ">Cart Totals</h2>
 
             <div className='my-[3rem] space-y-7'>
               <div className="flex justify-between mb-2">

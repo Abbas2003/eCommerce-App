@@ -1,9 +1,8 @@
-// import { createContext, useState } from "react";
-// import { Spinner } from "@nextui-org/react";
-import { createContext, useState, useEffect } from "react";
+import { Flex, Spin } from 'antd';
 import { auth } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
-// import { em } from "framer-motion/client";
+import { LoadingOutlined } from '@ant-design/icons';
+import { createContext, useState, useEffect } from "react";
 
 export const UserContext = createContext();
 
@@ -24,6 +23,7 @@ const UserContextProvider = ({ children }) => {
                     name: user?.displayName,
                     email: user?.email,
                     photoUrl: user?.photoURL,
+                    id: user?.uid
                 }
             });
         } else {
@@ -42,9 +42,9 @@ const UserContextProvider = ({ children }) => {
         <UserContext.Provider value={{user, setUser}}>
              {
                 loading ? (
-                    <div className="w-full h-96 flex justify-center items-center">
-                        {/* <Spinner /> */}
-                        <h1>Loading...</h1>
+                    <div className="w-full min-h-screen flex justify-center items-center">
+                        <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
+                        {/* <h1>Loading...</h1> */}
                     </div>
                 ) : (
                     children
