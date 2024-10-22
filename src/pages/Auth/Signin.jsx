@@ -1,41 +1,48 @@
 import React, { useState } from 'react';
-import { Button, Input, Form } from 'antd';
+import { Button, Input, Form, notification } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../utils/firebase';
-import { doc, setDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../../utils/firebase';
 
 const SignIn = () => {
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
+  const [form] = Form.useForm();
   const navigate = useNavigate()
 
-  // Sign-in pe yh create user kr rha ha. Sign-in aur sign-up ko alag alag krna ha aur user ko db me bhejna hai.User role bhi add krna ha as user jab db me user ko bhejen. Error handling krni ha with pop-ups
-  const handleSignIn = () =>  {
-    try{
-      setLoading(true)
-      createUserWithEmailAndPassword(auth, email, password).then(async (res) => {
-        navigate("/")
-        console.log("User Signed In");
-        setLoading(false)
-        
-        let obj = {
-          email: email,
-          password: password,
-          id: res.user.uid
-        }
-        console.log(obj.id);
-        
-        await setDoc(doc(db, "users", obj.id), obj)
-      }).catch((e) => console.log("Error=>", e.message))
+  
+  const handleSignIn = async () => {
+    setLoading(true); 
+  
+    try {
+      const res = await signInWithEmailAndPassword(auth, email, password);
+  
+      if (res.user) {
+        console.log("User Signed In Successfully", res.user);
+  
+        notification.success({
+          message: 'Login Successful',
+          description: `Welcome back, ${res.user.email}!`,
+        });
+  
+        form.resetFields(); 
+  
+        navigate("/");
+      }
+    } catch (error) { 
+      console.error("Error in Login:", error.message);
+  
+      notification.error({
+        message: 'Login Failed',
+        description: `${error.message}`,
+      });
+    } finally {
+      setLoading(false); 
     }
-    catch(err){
-      setLoading(false)
-      console.log("User Signed In Error",err?.message);
-    }
-  }
+  };
+  
 
 
 
@@ -64,7 +71,7 @@ const SignIn = () => {
         <h1 className="text-3xl font-bold text-white">Welcome Back!</h1>
         <p className="text-gray-600">Sign in to access your account and continue shopping.</p>
 
-        <Form layout="vertical" className="space-y-4">
+        <Form layout="vertical" className="space-y-4" form={form}>
           <Form.Item
             label={<span className="text-white">Email</span>}
             name="email"
@@ -84,8 +91,8 @@ const SignIn = () => {
               onChange={(e) => setPassword(e.target.value)} />
           </Form.Item>
 
-          <Button type="primary" block onClick={handleSignIn}>
-            Sign In
+          <Button type="primary" block onClick={handleSignIn} >
+            {loading ? "Signing In..." : "Sign In"}
           </Button>
         </Form>
 

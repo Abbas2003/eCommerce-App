@@ -16,7 +16,7 @@ const Signup = () => {
 
 
   const handleSignUp = async () => {
-    setLoading(true); // Start loading state
+    setLoading(true); 
   
     try {
       const res = await createUserWithEmailAndPassword(auth, email, password);
@@ -32,14 +32,14 @@ const Signup = () => {
   
         console.log("User Signed In Successfully", userObj);
   
-        await setDoc(doc(db, "users", userObj.id), userObj); // Save user in Firestore
+        await setDoc(doc(db, "users", userObj.id), userObj); 
   
         notification.success({
           message: 'Signup Successful',
           description: 'You have signed up successfully! Welcome to Furniro.',
         });
   
-        form.resetFields(); // Clear form inputs
+        form.resetFields(); 
       } 
     } catch (error) {
       console.error("Error in Signup:", error.message);
@@ -49,7 +49,7 @@ const Signup = () => {
         description: `Error: ${error.message}`,
       });
     } finally {
-      setLoading(false); // Stop loading state in both success and error cases
+      setLoading(false); 
     }
   };
   
