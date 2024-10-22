@@ -1,46 +1,55 @@
 import { Button } from 'antd';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { notification } from "antd";
 import { auth } from '../../utils/firebase';
+import { Link, useNavigate } from 'react-router-dom';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 
 const Auth = () => {
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
   const navigate = useNavigate();
 
-  const handleSignInWithGoogle = () => {
+  const handleSignInWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
     provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log("result=>", result)
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential.accessToken;
-        // The signed-in user info.
-        const user = result.user;
-        console.log("user=>", user);
-        navigate("/")
-        
-        // IdP data available using getAdditionalUserInfo(result)
-        // ...
-      }).catch((error) => {
-        
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error?.customData?.email;
-        // The AuthCredential type that was used.
-        console.log("error=>", errorCode, errorMessage, email);
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        // ...
+  
+    try {
+      const result = await signInWithPopup(auth, provider);
+  
+      // Retrieve credential and token
+      const credential = GoogleAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+  
+      // User information
+      const user = result.user;
+      console.log("User successfully signed in:", user);
+  
+      notification.success({
+        message: "Login Successful",
+        description: `Welcome, ${user.displayName || user.email}!`,
       });
-
-  }
+  
+      navigate("/");
+  
+    } catch (error) {
+      console.error("Error during Google sign-in:", error);
+  
+      // Extract error details
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      const email = error?.customData?.email;
+      const credential = GoogleAuthProvider.credentialFromError(error);
+  
+      // Display error notification
+      notification.error({
+        message: "Login Failed",
+        description: `Error: ${errorMessage} (Code: ${errorCode})`,
+      });
+  
+      // Optional: Log the email or handle specific credential-related cases
+      if (email) console.log("Affected email:", email);
+    }
+  };
+  
 
   return (
     <section className="relative h-screen w-screen overflow-hidden">

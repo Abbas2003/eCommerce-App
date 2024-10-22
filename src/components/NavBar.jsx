@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { HeartOutlined, SearchOutlined, ShoppingCartOutlined, UserOutlined, MenuOutlined, CloseOutlined } from '@ant-design/icons';
-import { Avatar, Badge, Button, Image, Modal } from 'antd';
+import { Avatar, Badge, Button, Image, message, Modal } from 'antd';
 import { Link, useNavigate } from 'react-router-dom';
 import { CartContext } from '../context/CartContext';
 import { UserContext } from '../context/UserContext';
@@ -40,7 +40,7 @@ const NavBar = () => {
   // Function to handle logout
   const handleLogout = async () => {
     try {
-      await signOut(auth); // Firebase logout
+      await signOut(auth); 
       user.setUserInfo(null); // Clear user context state
       message.success('Logged out successfully!');
     } catch (error) {
