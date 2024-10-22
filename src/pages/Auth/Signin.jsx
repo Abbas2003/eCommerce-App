@@ -12,6 +12,7 @@ const SignIn = () => {
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
 
+  // Sign-in pe yh create user kr rha ha. Sign-in aur sign-up ko alag alag krna ha aur user ko db me bhejna hai.User role bhi add krna ha as user jab db me user ko bhejen. Error handling krni ha with pop-ups
   const handleSignIn = () =>  {
     try{
       setLoading(true)

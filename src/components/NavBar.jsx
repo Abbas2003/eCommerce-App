@@ -105,7 +105,7 @@ const NavBar = () => {
         {/* Mobile Icons */}
         <div className="flex gap-8 text-xl p-5 items-center">
           {
-            user.isLogin ? <Avatar src={user?.userInfo?.photoUrl} /> : <UserOutlined />
+            user.isLogin && user.userInfo.photoUrl !== null ? <Avatar src={user?.userInfo?.photoUrl} /> : <UserOutlined />
           }
           <SearchOutlined />
           <HeartOutlined />
