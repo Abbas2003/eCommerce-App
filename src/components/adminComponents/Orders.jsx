@@ -1,7 +1,8 @@
-// src/components/adminComponents/Orders.js
 import React, { useEffect, useState } from 'react';
-import { Table, Spin, Typography } from 'antd';
+import { Table, Spin, Typography, message } from 'antd';
 import 'antd/dist/reset.css'; // Reset Ant Design styles
+import { collection, getDocs } from 'firebase/firestore';
+import { db } from '../../utils/firebase';
 
 const { Title } = Typography;
 
@@ -9,11 +10,39 @@ const Orders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch orders from localStorage
+  // Fetch orders from Firestore
+  const fetchOrdersFromDB = async () => {
+    try {
+      const usersSnapshot = await getDocs(collection(db, 'users'));
+      const allOrders = [];
+
+      // Loop through each user and fetch their orders
+      for (const userDoc of usersSnapshot.docs) {
+        const userOrdersRef = collection(userDoc.ref, 'orders'); // Access orders sub-collection
+        
+        const ordersSnapshot = await getDocs(userOrdersRef);
+        console.log(ordersSnapshot);
+
+        // Map through orders and add them to the allOrders array
+        ordersSnapshot.forEach((orderDoc) => {
+          allOrders.push({ id: orderDoc.id, ...orderDoc.data() });
+        });
+      }
+
+      console.log(allOrders);
+      
+      
+      setOrders(allOrders);
+      setLoading(false);
+    } catch (error) {
+      message.error('Failed to load orders. Please try again.');
+      console.error('Error fetching orders:', error);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const storedOrders = JSON.parse(localStorage.getItem('orders')) || [];
-    setOrders(storedOrders);
-    setLoading(false);
+    fetchOrdersFromDB();
   }, []);
 
   // Define columns for the table
@@ -24,14 +53,9 @@ const Orders = () => {
       key: 'id',
     },
     {
-      title: 'User',
+      title: 'Email',
       dataIndex: 'user',
       key: 'user',
-    },
-    {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
     },
     {
       title: 'Product',
@@ -40,7 +64,7 @@ const Orders = () => {
     },
     {
       title: 'Quantity',
-      dataIndex: 'quantity',
+      dataIndex: 'totalQuantity',
       key: 'quantity',
     },
     {

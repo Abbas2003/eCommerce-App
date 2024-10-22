@@ -39,7 +39,7 @@ function App() {
           </Route>
 
           <Route path='/admin'>
-            <Route index element={<AdminPanel />} />
+            <Route index element={<AdminPanel />}/>
           </Route>
         </Routes>
       </BrowserRouter>

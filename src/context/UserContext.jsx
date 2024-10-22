@@ -2,9 +2,10 @@ import { Flex, Spin } from 'antd';
 import { auth } from "../utils/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { LoadingOutlined } from '@ant-design/icons';
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
 
 export const UserContext = createContext();
+export const useAuth = () => useContext(UserContext); // Custom hook for easy access
 
 const UserContextProvider = ({ children }) => {
 
