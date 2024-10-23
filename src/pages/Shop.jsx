@@ -49,29 +49,53 @@ const Shop = () => {
     <section className='poppins-font'>
       <Hero currentPage={'Shop'} PreviousPage={'Home'} />
 
-      <div style={{ backgroundColor: '#F9F1E7', padding: '30px 70px', display: 'flex', justifyContent: 'space-between' }}>
-        <div className='flex gap-4 text-sm'>
-          <div className='flex gap-3 items-center'>
-            <span><img src="/Vector.svg" alt="" /></span>
-            <span className='text-lg'>Filter</span>
+      <div
+        style={{ backgroundColor: '#F9F1E7', padding: '30px 70px' }}
+        className="flex flex-col md:flex-row md:justify-between gap-4"
+      >
+        {/* Left Section */}
+        <div className="flex flex-col sm:flex-row gap-4 text-sm sm:text-base">
+          <div className="flex gap-3 items-center">
+            <span>
+              <img src="/Vector.svg" alt="Filter Icon" />
+            </span>
+            <span className="text-lg sm:text-base">Filter</span>
           </div>
-          <div className='flex gap-5 items-center ml-3'>
-            <span><img src="/dots.svg" alt="" /></span>
-            <span><img src="/Vector2.svg" alt="" /></span>
+
+          <div className="flex gap-5 items-center md:ml-3 ml-0">
+            <span>
+              <img src="/dots.svg" alt="Dots Icon" />
+            </span>
+            <span>
+              <img src="/Vector2.svg" alt="Another Icon" />
+            </span>
           </div>
-          <div className='flex items-center' style={{ borderLeft: '1px solid #9F9F9F', paddingLeft: '1.3rem' }}>
-            <p>Showing {products.length} of {total} results</p>
+
+          <div
+            className="flex items-center border-t sm:border-t-0 sm:border-l border-gray-400 pl-0 sm:pl-5"
+          >
+            <p className="text-xs sm:text-sm py-2">
+              Showing {products.length} of {total} results
+            </p>
           </div>
         </div>
 
-        <div className='flex items-center gap-3'>
-          <div>
+        {/* Right Section */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 space-y-2 md:space-y-0">
+          <div className="text-xs sm:text-sm">
             Show
-            <span className='p-3 bg-white text-gray-300 ml-4'>{products.length}</span>
+            <span className="p-3 bg-white text-gray-500 ml-4">
+              {products.length}
+            </span>
           </div>
-          <div>
-            Sort by
-            <select value={sortBy} onChange={handleSortChange} className='py-3 px-4 bg-white text-gray-300 ml-4'>
+
+          <div className="text-xs sm:text-sm flex items-center space-y-2 md:space-y-0 justify-center">
+            <div className=''>Sort by</div>
+            <select
+              value={sortBy}
+              onChange={handleSortChange}
+              className="py-2 px-3 bg-white text-gray-500 ml-2 md:ml-4 rounded w-32 sm:w-44"
+            >
               <option value="">Default</option>
               <option value="title">Title</option>
               <option value="asc">Price: Low to High</option>
@@ -80,6 +104,8 @@ const Shop = () => {
           </div>
         </div>
       </div>
+
+
 
       {/* All Products */}
       {
@@ -93,7 +119,7 @@ const Shop = () => {
                 <ProductCard item={product} key={product.id} />
               ))
             )}
-          </div> 
+          </div>
       }
 
 
