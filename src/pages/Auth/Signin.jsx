@@ -27,9 +27,10 @@ const SignIn = () => {
           description: `Welcome back, ${res.user.email}!`,
         });
   
-        form.resetFields(); 
+        // form.resetFields(); 
   
-        navigate("/");
+        navigate("/checkout");
+        setLoading(false);
       }
     } catch (error) { 
       console.error("Error in Login:", error.message);

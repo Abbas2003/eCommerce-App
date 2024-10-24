@@ -75,8 +75,8 @@ const CheckOut = () => {
         const ordersCollectionRef = collection(doc(db, "users", userId), "orders");
         console.log(ordersCollectionRef);
         console.log(order);
-        
-      
+
+
         // Add the order as a new document inside the 'orders' sub-collection
         addDoc(ordersCollectionRef, order)
           .then(() => {
@@ -114,7 +114,7 @@ const CheckOut = () => {
     const templateID = import.meta.env.VITE_TEMPLATE_ID;
     const publicKey = import.meta.env.VITE_PUBLIC_KEY;
     console.log(publicKey);
-    
+
 
     const templateParams = {
       firstName: formValues.firstName,
@@ -144,7 +144,7 @@ const CheckOut = () => {
       // Redirect to the auth page after showing the error
       setTimeout(() => {
         navigate('/auth');
-      }, 3000); // Redirect after 3 seconds
+      }, 1000); // Redirect after 3 seconds
       return;
     }
 
@@ -182,23 +182,25 @@ const CheckOut = () => {
     \n\nAdditional Info: ${formValues.additionalInfo || 'N/A'}
   `;
 
-    // Sending data to db
-    sendDataToFirestore(user)
+    if (user.user.isLogin) {
+      // Sending data to db
+      sendDataToFirestore(user)
 
-    message.success('Order placed successfully!');
-    
-    // Send the order summary to the user's email
-    sendEmail(orderMessage);
-    
-    // Clear the cart after placing the order
-    localStorage.removeItem('cartItems');
-    localStorage.removeItem('cartSubtotal'); // Remove subtotal from local storage
-    setCartItems([]);
-    setCartSubtotal(0);
-    
+      message.success('Order placed successfully!');
 
-    // Open WhatsApp with the formatted message
-    window.open(`https://wa.me/923108295635?text=${encodeURIComponent(orderMessage)}`);
+      // Send the order summary to the user's email
+      sendEmail(orderMessage);
+
+      // Clear the cart after placing the order
+      localStorage.removeItem('cartItems');
+      localStorage.removeItem('cartSubtotal'); // Remove subtotal from local storage
+      setCartItems([]);
+      setCartSubtotal(0);
+
+
+      // Open WhatsApp with the formatted message
+      window.open(`https://wa.me/923108295635?text=${encodeURIComponent(orderMessage)}`);
+    }
   };
 
 
