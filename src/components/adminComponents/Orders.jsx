@@ -126,7 +126,6 @@ const Orders = () => {
           </Option>
         </Select>
       ),
-/******  d421a022-3886-40b3-9132-4540c13c96fe  *******/
     },
     {
       title: 'Total Price',

@@ -7,7 +7,7 @@ import { db } from '../../utils/firebase';
 const { Title } = Typography;
 const { Option } = Select;
 
-const Orders = () => {
+const UserOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -126,7 +126,6 @@ const Orders = () => {
           </Option>
         </Select>
       ),
-/******  d421a022-3886-40b3-9132-4540c13c96fe  *******/
     },
     {
       title: 'Total Price',
@@ -168,4 +167,4 @@ const Orders = () => {
   );
 };
 
-export default Orders;
+export default UserOrders;
