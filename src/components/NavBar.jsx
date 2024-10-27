@@ -40,7 +40,7 @@ const NavBar = () => {
   // Function to handle logout
   const handleLogout = async () => {
     try {
-      await signOut(auth); 
+      await signOut(auth);
       setUser(null); // Clear user context state
       message.success('Logged out successfully!');
     } catch (error) {
@@ -73,13 +73,18 @@ const NavBar = () => {
         <div className="hidden md:flex gap-8 text-xl md:items-center">
           {user.isLogin ? (
             <>
-              <Avatar src={user?.userInfo?.photoUrl} />
+              {user.userInfo.photoUrl ? ( <Avatar src={user?.userInfo?.photoUrl} /> ) : <UserOutlined />}
               <Button onClick={handleLogout} type="text" className="text-red-500">
                 Logout
               </Button>
             </>
           ) : (
-            <UserOutlined />
+            // <UserOutlined />
+            <Link to={'/auth/signin'}>
+              <button className='py-2 px-3 transition delay bg-[#B88E2F] hover:bg-white hover:text-[#B88E2F] text-white border-[#B88E2F] border'>
+                Login
+              </button>
+            </Link>
           )}
           <SearchOutlined />
           <HeartOutlined />

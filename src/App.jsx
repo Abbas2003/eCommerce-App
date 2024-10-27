@@ -14,6 +14,7 @@ import NotFound from './pages/NotFound'
 import Cart from './pages/Cart'
 import About from './pages/About'
 import AdminPanel from './pages/Admin/Admin'
+import UserPanel from './pages/User/User'
 
 function App() {
 
@@ -40,6 +41,10 @@ function App() {
 
           <Route path='/admin'>
             <Route index element={<AdminPanel />}/>
+          </Route>
+
+          <Route path='/user'>
+            <Route index element={<UserPanel />}/>
           </Route>
         </Routes>
       </BrowserRouter>
