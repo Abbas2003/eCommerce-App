@@ -9,7 +9,7 @@ const Home = () => {
   const [products, setProducts] = useState([])
 
   useEffect(() => {
-    axios.get('https://dummyjson.com/products/category/smartphones')
+    axios.get('https://dummyjson.com/products/category/home-decoration')
       .then(res => setProducts(res.data.products))
 
   }, [])
@@ -110,11 +110,12 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='flex flex-wrap justify-center gap-4 mt-10'>
-          {products.map(product => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mt-10">
+          {products.map((product) => (
             <ProductCard item={product} key={product.id} />
           ))}
         </div>
+
 
         <div className='text-center my-7'>
           <Link to={'/shop'}>
